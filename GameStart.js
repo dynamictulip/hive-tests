@@ -1,12 +1,10 @@
-// var should = require('chai').should()
+const should = require('chai').should();
 const {
     assert
 } = require('chai');
 const {
     chromium
 } = require('playwright');
-
-
 
 describe('Starting a game', function () {
     let pagePlayerOne;
@@ -18,31 +16,33 @@ describe('Starting a game', function () {
             headless: false,
             slowMo: 300
         });
-        const playerOneContext = await browser.newContext();
-        pagePlayerOne = await playerOneContext.newPage();
-        //login each player
 
-        const playerTwoContext = await browser.newContext();
-        pagePlayerTwo = await playerTwoContext.newPage();
-        pagePlayerOne = login(playerOneContext);
-        //login each player
-
-            await pagePlayerOne.goto('https://studio.boardgamearena.com/');
-            await pagePlayerTwo.goto('https://studio.boardgamearena.com/');
+        pagePlayerOne = await loginPlayer(browser, 'uuuuuu', 'pppppppp');
+        pagePlayerTwo = await loginPlayer(browser, 'uuuuuu2', 'ppppppp');
     });
-    
-    beforeEach(async () => {
-        //go to start the game
-    })
-    
+
     after(async () => {
+        //close all tables
+        await pagePlayerOne.click('#mygameinprogress_icon');
         await browser.close();
     })
 
+    it('should start', async () => {
+        //go to start the game
+        await pagePlayerOne.goto('https://studio.boardgamearena.com/lobby?game=5942');
+        await pagePlayerOne.click('#joingame_create_5942');
+        await pagePlayerOne.click('#open_table_now');
+
+        var tableUrl = await pagePlayerOne.url();
+        await pagePlayerTwo.goto(tableUrl);
+
+    })
+
     describe('with the pillbug', function () {
-        beforeEach(async ()=>{
+        beforeEach(async () => {
             //set the pillbug option
         })
+
         it('should be on each players sideboard', async () => {
 
             assert.fail();
@@ -50,3 +50,16 @@ describe('Starting a game', function () {
         });
     });
 });
+
+async function loginPlayer(browser, user, pass) {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto('https://studio.boardgamearena.com/');
+    await page.fill('#username_input', user);
+    await page.fill('#password_input', pass);
+    await page.click('#submit_login_button');
+
+    await page.waitForSelector('#navbutton_controlpanel');
+
+    return page;
+}
