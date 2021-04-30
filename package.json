@@ -8,8 +8,12 @@
     "playwright": "1.10.0",
     "mocha": "8.3.2"
   },
+  "mocha": {
+    "spec": "*.js",
+    "timeout": "false"
+  },
   "scripts": {
-    "test": "mocha tests.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
