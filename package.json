@@ -1,0 +1,24 @@
+{
+  "name": "hive-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Sarasawesome.js",
+  "dependencies": {
+    "chai": "4.3.4",
+    "playwright": "1.10.0",
+    "mocha": "8.3.2"
+  },
+  "scripts": {
+    "test": "mocha tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dynamictulip/hive-tests.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dynamictulip/hive-tests/issues"
+  },
+  "homepage": "https://github.com/dynamictulip/hive-tests#readme"
+}
